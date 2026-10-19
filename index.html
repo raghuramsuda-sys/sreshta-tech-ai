@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teach the Robot — Sreshta's Tech Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--ink:#1F3A5F;--ink2:#2C5F8A;--sky:#57B7E8;--sky2:#2E8FC9;--deep:#1668A6;--paper:#FFFFFF;--card:#FFFFFF;--coral:#FF6F61;--coral2:#E8503F;--gold:#E9B44C;--goldlt:#F6C453;--line:#BFE0F2;--soft:#5B7A99;--mint:#3FA97C}
+body{margin:0;font-family:'Nunito',sans-serif;color:var(--ink);min-height:100dvh;overflow-x:hidden;position:relative;
+background:
+ repeating-linear-gradient(0deg, rgba(87,183,232,.13) 0 1px, transparent 1px 28px),
+ repeating-linear-gradient(90deg, rgba(87,183,232,.13) 0 1px, transparent 1px 28px),
+ linear-gradient(180deg,#EAF6FF 0%,#D8EEFC 55%,#C6E6FA 100%)}
+h1,h2,h3,.baloo{font-family:'Baloo 2',cursive}
+.scr{display:none;max-width:480px;margin:0 auto;padding:12px 14px 90px;min-height:100dvh;position:relative;z-index:2}
+.scr.on{display:block}
+.topbar{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.topbar .tb{background:#fff;border:2px solid var(--line);color:var(--ink2);border-radius:999px;padding:6px 14px;font-weight:800;font-size:14px;cursor:pointer;min-height:48px}
+.topbar .crumb{font-size:13px;font-weight:800;color:var(--soft)}
+.door{text-align:center;padding:8px 0 2px}
+.gearIcon{font-size:40px;line-height:1}
+h1.title{margin:6px 0 0;font-size:30px;color:var(--deep);line-height:1.15}
+.tagline{font-weight:800;color:var(--coral2);letter-spacing:.3px;margin:3px 0 8px}
+.gRow{display:flex;gap:12px;align-items:flex-end;margin:8px 0}
+.gWrap{flex:0 0 108px;cursor:pointer;animation:bob 3s ease-in-out infinite;text-align:center}
+.gWrap svg{width:108px;height:auto}
+.gWrap.small{flex-basis:72px;animation:none}
+.gWrap.small svg{width:72px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.bubble{position:relative;background:#fff;color:var(--ink);border:3px solid var(--sky);border-radius:22px;padding:12px 14px;font-family:'Baloo 2',cursive;font-size:17px;line-height:1.35;flex:1;box-shadow:0 4px 0 rgba(46,143,201,.25)}
+.bubble:after{content:"";position:absolute;left:-13px;bottom:20px;width:20px;height:20px;background:#fff;border-left:3px solid var(--sky);border-bottom:3px solid var(--sky);transform:rotate(45deg);border-bottom-left-radius:6px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 4px 12px rgba(22,104,166,.13);margin:10px 0;color:var(--ink)}
+.card.skyy{background:linear-gradient(135deg,#2E8FC9,#57B7E8);color:#fff;border-color:#2E8FC9}
+.card.goldy{background:linear-gradient(135deg,#FFF6DC,#FFEFC2);border-color:var(--gold)}
+.card.minty{background:linear-gradient(135deg,#EAFBF3,#D3F5E4);border-color:#9FE3C0}
+.btn{display:block;width:100%;border:none;cursor:pointer;border-radius:999px;padding:13px 16px;font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;min-height:52px;background:var(--coral);color:#fff;box-shadow:0 4px 0 var(--coral2);margin:10px 0}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--coral2)}
+.btn.sky{background:var(--sky2);box-shadow:0 4px 0 var(--deep)}
+.btn.ghosty{background:#fff;color:var(--ink2);border:2px solid var(--line);box-shadow:none}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.small{min-height:48px;font-size:15px;padding:9px 12px;width:auto;display:inline-block}
+.entry{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:20px;padding:14px 16px;cursor:pointer;margin:10px 0;min-height:64px;box-shadow:0 4px 12px rgba(22,104,166,.12);font-family:'Baloo 2',cursive;font-size:20px;color:var(--ink)}
+.entry small{display:block;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:var(--soft)}
+.entry .face{font-size:30px}
+.foot{font-size:12.5px;color:var(--soft);font-weight:700;text-align:center;margin:14px 4px;line-height:1.5}
+.pinDots{display:flex;gap:12px;justify-content:center;margin:14px 0}
+.pinDots span{width:18px;height:18px;border-radius:50%;border:3px solid var(--sky2);background:#fff}
+.pinDots span.f{background:var(--coral)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:300px;margin:10px auto}
+.pad button{background:#FFFFFF;border:2px solid var(--line);border-radius:18px;font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:#1F3A5F;min-height:60px;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.pad button:active{transform:translateY(2px)}
+#pinMsg{text-align:center;color:var(--coral2);font-weight:800;min-height:22px}
+.mrow{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--line);border-radius:18px;padding:10px 12px;margin:8px 0;cursor:pointer;min-height:60px;width:100%;text-align:left;font-family:'Nunito',sans-serif;color:var(--ink)}
+.mrow .num{flex:0 0 38px;height:38px;border-radius:50%;background:var(--sky);color:#fff;font-family:'Baloo 2',cursive;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:17px}
+.mrow.lock{opacity:.55;cursor:default}
+.mrow.done .num{background:var(--mint)}
+.mrow .mt{flex:1}
+.mrow .mt b{font-family:'Baloo 2',cursive;font-size:16.5px;display:block}
+.mrow .mt small{color:var(--soft);font-weight:800;font-size:12px}
+.mrow .star{font-size:20px}
+.stageHead{font-family:'Baloo 2',cursive;color:var(--deep);margin:18px 0 4px;font-size:20px}
+.stageSub{color:var(--soft);font-weight:800;font-size:13px;margin:0 0 6px}
+.shelf{background:linear-gradient(180deg,#FFFDF6,#FDF3DC);border:2px solid #EAD9AC;border-radius:16px;padding:10px;margin:10px 0}
+.shelfRow{border-bottom:8px solid #C98F4E;border-radius:4px;padding:6px 2px 10px;margin-bottom:8px}
+.shelfRow:last-child{margin-bottom:0}
+.shelfLbl{display:inline-block;background:var(--deep);color:#fff;border-radius:999px;padding:2px 12px;font-family:'Baloo 2',cursive;font-size:14px;margin-bottom:6px}
+.pcards{display:flex;flex-wrap:wrap;gap:8px}
+.pcard{background:#fff;border:2px solid var(--line);border-radius:14px;padding:6px 8px;text-align:center;min-width:64px;cursor:pointer}
+.pcard .art{font-size:32px;line-height:1.1}
+.pcard .art.big{font-size:42px}.pcard .art.small{font-size:24px}
+.pcard .nm{font-size:12px;font-weight:800;color:var(--ink2)}
+.pcard.picked{border-color:var(--coral);box-shadow:0 0 0 3px rgba(255,111,97,.35)}
+.pcard.plain{cursor:default}
+.tray{background:#fff;border:2px dashed var(--sky);border-radius:16px;padding:10px;margin:10px 0}
+.stepTag{display:inline-block;background:var(--goldlt);color:#6E4A12;border-radius:999px;padding:3px 14px;font-family:'Baloo 2',cursive;font-weight:800;font-size:14px}
+.testStage{background:#fff;border:2px solid var(--line);border-radius:20px;padding:16px;text-align:center;margin:10px 0}
+.testStage .art{font-size:74px;line-height:1.15}
+.guessBox{background:#EAF6FF;border:2px solid var(--sky);border-radius:16px;padding:10px 12px;font-family:'Baloo 2',cursive;font-size:18px;margin:10px 0}
+.frame{background:linear-gradient(135deg,#FFF6DC,#FFEFC2);border:3px solid var(--gold);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 4px 10px rgba(185,140,20,.18)}
+.frame h3{margin:2px 0 4px;color:#8A6414}
+.frame .cause{font-weight:800;color:var(--ink2);font-size:14px}
+.dashNav{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.dashNav button{background:#fff;border:2px solid var(--line);color:var(--ink2);border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer;min-height:48px;font-size:14px}
+.dashNav button.on{background:var(--sky2);color:#fff;border-color:var(--sky2)}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-weight:800}
+.kv:last-child{border-bottom:none}
+.kv span:first-child{color:var(--soft)}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:800}
+.pill.play{background:#FFF0D6;color:#8A6414}.pill.exp{background:#DFF7E9;color:#14663F}.pill.not{background:#EDF2F7;color:#5B7A99}
+input[type=text]{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;color:var(--ink);min-height:52px;background:#fff}
+.chipRow{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-family:'Baloo 2',cursive;font-weight:800;cursor:pointer;min-height:48px;color:var(--ink)}
+.chip.on{background:var(--sky2);color:#fff;border-color:var(--sky2)}
+.swatch{width:56px;height:56px;border-radius:50%;border:4px solid #fff;box-shadow:0 2px 8px rgba(22,104,166,.3);cursor:pointer;min-height:56px}
+.swatch.on{outline:4px solid var(--coral)}
+.huntGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.huntItem{background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;cursor:pointer;min-height:96px}
+.huntItem .art{font-size:36px}
+.huntItem .nm{font-family:'Baloo 2',cursive;font-weight:800;font-size:14.5px;margin-top:2px}
+.huntItem .rv{font-size:12px;font-weight:800;color:var(--deep);margin-top:4px;display:none}
+.huntItem.found{border-color:var(--mint);background:#F2FCF6}
+.huntItem.found .rv{display:block}
+.big{font-size:19px}
+.center{text-align:center}
+#labBackBtn{position:fixed;left:12px;bottom:12px;z-index:50;display:none;align-items:center;gap:6px;background:#fff;border:2px solid var(--sky2);color:var(--deep);border-radius:999px;padding:10px 18px;font-family:'Baloo 2',cursive;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 4px 12px rgba(22,104,166,.25);min-height:48px}
+.starPop{font-size:44px;text-align:center}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<section class="scr" id="scr-access">
+  <div class="door">
+    <div class="gearIcon">🔬</div>
+    <h1 class="title">Teach the Robot</h1>
+    <div class="tagline">Sreshta's Tech Lab · The Robot Workshop 🤖</div>
+  </div>
+  <div class="gRow">
+    <div class="gWrap" id="accessBit"></div>
+    <div class="bubble" id="accessBubble">Hello, Sreshta! I am a baby robot. I know nothing yet — but you can train me! Every example you teach me helps me guess better.</div>
+  </div>
+  <button class="entry" onclick="openPin('child')"><span class="face">🌟</span><span>Sreshta<small>Tap to visit your Robot Workshop</small></span></button>
+  <button class="entry" onclick="openPin('parent')"><span class="face">🔑</span><span>Parents<small>Mom &amp; Dad — dashboard</small></span></button>
+  <p class="foot">Here, Sreshta is the teacher and the robot is the student. Gentle, playful, and Mom &amp; Dad can see everything.</p>
+</section>
+
+<section class="scr" id="scr-pin">
+  <div class="topbar"><button class="tb" onclick="show('scr-access')">← Back</button><span class="crumb">Secret PIN</span></div>
+  <h2 class="baloo" id="pinTitle" style="text-align:center;color:var(--deep)">PIN</h2>
+  <div class="pinDots" id="pinDots"><span></span><span></span><span></span><span></span></div>
+  <div id="pinMsg"></div>
+  <div class="pad">
+    <button onclick="pinKey('1')">1</button><button onclick="pinKey('2')">2</button><button onclick="pinKey('3')">3</button>
+    <button onclick="pinKey('4')">4</button><button onclick="pinKey('5')">5</button><button onclick="pinKey('6')">6</button>
+    <button onclick="pinKey('7')">7</button><button onclick="pinKey('8')">8</button><button onclick="pinKey('9')">9</button>
+    <button onclick="pinKey('C')">C</button><button onclick="pinKey('0')">0</button><button onclick="pinKey('⌫')">⌫</button>
+  </div>
+</section>
+
+<section class="scr" id="scr-base">
+  <div class="topbar"><button class="tb" onclick="leaveBase()">← Workshop</button><span class="crumb">Day 1 — My Robot Start</span></div>
+  <div id="baseBody"></div>
+</section>
+
+<section class="scr" id="scr-home">
+  <div class="door" style="padding-top:2px">
+    <div class="gearIcon" style="font-size:32px">🔬</div>
+    <h1 class="title" style="font-size:26px">The Robot Workshop</h1>
+  </div>
+  <div class="gRow">
+    <div class="gWrap" id="homeBit" onclick="tapBit()"></div>
+    <div class="bubble" id="homeBubble">Welcome to your Robot Workshop, Sreshta!</div>
+  </div>
+  <div id="homeBody"></div>
+</section>
+
+<section class="scr" id="scr-mission">
+  <div class="topbar"><button class="tb" onclick="leaveMission()">← Workshop</button><span class="crumb" id="missionCrumb">Mission</span></div>
+  <div id="missionBody"></div>
+</section>
+
+<section class="scr" id="scr-journal">
+  <div class="topbar"><button class="tb" onclick="goHome()">← Workshop</button><span class="crumb">AI Sightings Journal</span></div>
+  <div id="journalBody"></div>
+</section>
+
+<section class="scr" id="scr-dash">
+  <div class="topbar"><button class="tb" onclick="show('scr-access')">← Exit</button><span class="crumb">Parents — Teach the Robot Dashboard</span></div>
+  <div class="dashNav">
+    <button data-d="ov" onclick="dashGo('ov')">Overview</button>
+    <button data-d="shelf" onclick="dashGo('shelf')">Brain Shelf</button>
+    <button data-d="museum" onclick="dashGo('museum')">Mistake Museum</button>
+    <button data-d="concepts" onclick="dashGo('concepts')">Concept Checklist</button>
+    <button data-d="sight" onclick="dashGo('sight')">Sightings</button>
+    <button data-d="honest" onclick="dashGo('honest')">Honesty Card</button>
+    <button data-d="ctrl" onclick="dashGo('ctrl')">Controls</button>
+  </div>
+  <div id="dash-ov"></div><div id="dash-shelf"></div><div id="dash-museum"></div><div id="dash-concepts"></div><div id="dash-sight"></div><div id="dash-honest"></div><div id="dash-ctrl"></div>
+  <p class="foot">Teach the Robot keeps everything on this device only — her robot, stars, shelf and journal live here, not in any cloud. This app never asks for or stores her address, phone number, school or any place.</p>
+</section>
+
+<a id="labBackBtn" href="https://raghuramsuda-sys.github.io/sreshta-tech-lab/" aria-label="Back to the Tech Lab door">&#8592; Lab</a>
+<script>(function(){var b=document.getElementById("labBackBtn");if(!b)return;function upd(){var on=document.querySelector(".scr.on");var showIt=!on||on.id==="scr-access"||on.id==="scr-home";b.style.display=showIt?"inline-flex":"none";}upd();new MutationObserver(upd).observe(document.documentElement,{attributes:true,attributeFilter:["class"],subtree:true});})();</script>
+<script>
+"use strict";
+/* ================= HELPERS ================= */
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const todayISO = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+
+/* ================= BIT THE BABY ROBOT (SVG) ================= */
+const BIT_COLORS = { sky: "#57B7E8", coral: "#FF8A75", mint: "#6FD3A7", sunny: "#FFC94D" };
+const BIT_COLOR_NAMES = { sky: "Sky Blue", coral: "Coral", mint: "Mint", sunny: "Sunny" };
+function bitSVG(color) {
+  const c = BIT_COLORS[color] || BIT_COLORS.sky;
+  return `<svg viewBox="0 0 120 150" role="img" aria-label="Bit the baby robot">
+  <line x1="60" y1="26" x2="60" y2="8" stroke="#8A97A5" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="60" cy="7" r="6" fill="#FF6F61"/>
+  <rect x="14" y="52" width="10" height="22" rx="5" fill="#B9CBD8"/>
+  <rect x="96" y="52" width="10" height="22" rx="5" fill="#B9CBD8"/>
+  <rect x="24" y="26" width="72" height="58" rx="24" fill="${c}"/>
+  <rect x="32" y="38" width="56" height="34" rx="16" fill="#FFFFFF"/>
+  <circle cx="49" cy="53" r="5.5" fill="#1F3A5F"/><circle cx="71" cy="53" r="5.5" fill="#1F3A5F"/>
+  <circle cx="51" cy="51" r="1.8" fill="#fff"/><circle cx="73" cy="51" r="1.8" fill="#fff"/>
+  <path d="M50 64 Q60 71 70 64" stroke="#1F3A5F" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="38" cy="63" r="4" fill="#FFB3A7" opacity="0.8"/><circle cx="82" cy="63" r="4" fill="#FFB3A7" opacity="0.8"/>
+  <rect x="34" y="92" width="52" height="40" rx="14" fill="${c}"/>
+  <rect x="44" y="100" width="32" height="24" rx="7" fill="#FFFFFF"/>
+  <path d="M60 119 C52 113 50 108 54.5 105.5 C57 104.2 60 106 60 108.5 C60 106 63 104.2 65.5 105.5 C70 108 68 113 60 119 Z" fill="#FF6F61"/>
+  <path d="M34 100 q-12 8 -10 22" stroke="${c}" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M86 100 q12 8 10 22" stroke="${c}" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <ellipse cx="47" cy="142" rx="10" ry="4.5" fill="#8A97A5"/>
+  <ellipse cx="73" cy="142" rx="10" ry="4.5" fill="#8A97A5"/>
+</svg>`;
+}
+function bitRow(bubbleText, small) {
+  return `<div class="gRow"><div class="gWrap${small ? " small" : ""}">${bitSVG(S.bit.color)}</div><div class="bubble">${esc(bubbleText)}</div></div>`;
+}
+
+/* ================= THE CLASSIFIER (design Section 10, made real) =================
+   Bit's guesses are computed from the examples Sreshta taught: every taught
+   card scores by how many features it shares with the new card; the label of
+   the best-matching taught cards wins by majority; a tie means "not sure". */
+function matchScore(taughtCard, card) { let s = 0; for (const k in card.f) { if (taughtCard.f[k] === card.f[k]) s++; } return s; }
+function classify(taught, card) {
+  if (!taught || !taught.length) return { label: null, sure: false, score: 0 };
+  let best = -1;
+  for (const t of taught) { const s = matchScore(t, card); if (s > best) best = s; }
+  const tied = taught.filter(t => matchScore(t, card) === best);
+  const byLabel = {};
+  tied.forEach(t => { byLabel[t.label] = (byLabel[t.label] || 0) + 1; });
+  const top = Math.max.apply(null, Object.values(byLabel));
+  const winners = Object.keys(byLabel).filter(l => byLabel[l] === top);
+  if (winners.length > 1) return { label: null, sure: false, score: best };
+  return { label: winners[0], sure: top >= 2 || best >= 3, score: best };
+}
+function guessLine(g) {
+  if (!g.label) return "Hmm… I am not sure yet. I need more examples!";
+  if (g.sure) return "I am sure! My guess: " + g.label + "!";
+  return "My guess: " + g.label + ".";
+}
+
+/* ================= CARD FACTORY ================= */
+let cardSeq = 0;
+function C(art, name, label, f, truth) { cardSeq++; return { id: "c" + cardSeq, art: art, name: name, label: label, truth: truth || label, f: f }; }
+
+/* ================= BASELINE B2 / HUNT DATA ================= */
+const HUNT_ITEMS = [
+  { art: "📱", nm: "Phone Face Unlock", rv: "It guesses a face — is this Sreshta?" },
+  { art: "▶️", nm: "Video App", rv: "It guesses which video you will tap next." },
+  { art: "🔊", nm: "Voice Helper", rv: "It guesses the words you just said." },
+  { art: "🌼", nm: "Photo Flower Finder", rv: "It guesses the name of a flower in a photo." },
+  { art: "🎵", nm: "Music App", rv: "It guesses songs you will like." },
+  { art: "⌨️", nm: "Guessing Keyboard", rv: "It guesses the next word you will type." }
+];
+
+/* ================= TRAINING SKILLS (B3 + Missions 11-15) =================
+   teach: cards she places on the Brain Shelf. tests: unseen cards Bit tries.
+   trick: the test card id built to expose the gap. fix: cards (or a relabel
+   or label-swap) offered in the Fix step. Retest re-runs the trick card. */
+const SKILLS = {
+  first: {
+    mid: 0, title: "First Fruits", shelfName: "First Fruits",
+    intro: "Teach me my very first skill! Tap each fruit card to put it on my Brain Shelf, under its label. Then I will try to guess new fruits — using only YOUR examples.",
+    labels: ["apple", "banana", "grapes", "tomato"],
+    teach: [
+      C("🍎", "apple", "apple", { colour: "red", shape: "round", size: "small", stem: "curved" }),
+      C("🍎", "apple", "apple", { colour: "red", shape: "round", size: "big", stem: "curved" }),
+      C("🍌", "banana", "banana", { colour: "yellow", shape: "long", size: "big", stem: "curved" }),
+      C("🍌", "banana", "banana", { colour: "yellow", shape: "long", size: "small", stem: "curved" }),
+      C("🍇", "grapes", "grapes", { colour: "purple", shape: "bunch", size: "small", stem: "curved" }),
+      C("🍇", "grapes", "grapes", { colour: "green", shape: "bunch", size: "small", stem: "curved" })
+    ],
+    tests: [
+      C("🍎", "apple", "apple", { colour: "red", shape: "round", size: "small", stem: "curved" }),
+      C("🍌", "banana", "banana", { colour: "yellow", shape: "long", size: "small", stem: "curved" }),
+      C("🍇", "grapes", "grapes", { colour: "purple", shape: "bunch", size: "small", stem: "curved" }),
+      C("🍅", "tomato", "tomato", { colour: "red", shape: "round", size: "small", stem: "star" })
+    ],
+    trickIx: 3,
+    fixKind: "add",
+    fix: [
+      C("🍅", "tomato", "tomato", { colour: "red", shape: "round", size: "small", stem: "star" }),
+      C("🍅", "tomato", "tomato", { colour: "red", shape: "round", size: "big", stem: "star" })
+    ],
+    trickLine: "A tomato! It is red and round like the apples — but it is a tomato. My shelf had no tomato example, so I guessed apple.",
+    fixLine: "Let us fix my brain! Tap the tomato cards to add them to my shelf, under the new label: tomato.",
+    takeaway: "Bit learned from MY examples.",
+    museum: { title: "The Tomato Surprise", cause: "I only knew red, round fruits — so I guessed apple." }
+  },
+  feed: {
+    mid: 11, title: "Feed the Brain", shelfName: "Fruit Shapes",
+    intro: "New skill: fruit shapes! Teach me mango, pineapple and coconut. Watch the shapes and skins — then I will guess with your examples only.",
+    labels: ["mango", "pineapple", "coconut", "papaya"],
+    teach: [
+      C("🥭", "mango", "mango", { colour: "yellow", shape: "oval", feel: "smooth", size: "big" }),
+      C("🥭", "mango", "mango", { colour: "orange", shape: "oval", feel: "smooth", size: "small" }),
+      C("🍍", "pineapple", "pineapple", { colour: "yellow", shape: "tall", feel: "spiky", size: "big" }),
+      C("🍍", "pineapple", "pineapple", { colour: "yellow", shape: "tall", feel: "spiky", size: "small" }),
+      C("🥥", "coconut", "coconut", { colour: "brown", shape: "round", feel: "bumpy", size: "big" }),
+      C("🥥", "coconut", "coconut", { colour: "brown", shape: "round", feel: "bumpy", size: "small" })
+    ],
+    tests: [
+      C("🥭", "mango", "mango", { colour: "orange", shape: "oval", feel: "smooth", size: "big" }),
+      C("🍍", "pineapple", "pineapple", { colour: "yellow", shape: "tall", feel: "spiky", size: "big" }),
+      C("🥥", "coconut", "coconut", { colour: "brown", shape: "round", feel: "bumpy", size: "small" }),
+      C("🍈", "papaya", "papaya", { colour: "orange", shape: "oval", feel: "smooth", size: "big" })
+    ],
+    trickIx: 3,
+    fixKind: "add",
+    fix: [
+      C("🍈", "papaya", "papaya", { colour: "orange", shape: "oval", feel: "smooth", size: "big" }),
+      C("🍈", "papaya", "papaya", { colour: "yellow", shape: "oval", feel: "smooth", size: "small" })
+    ],
+    trickLine: "A papaya! It is smooth and oval like the mangoes — but my shelf had no papaya example, so I guessed mango.",
+    fixLine: "Time to fix my brain! Add the papaya cards to my shelf, under their own label.",
+    takeaway: "Bit learned from MY examples.",
+    museum: { title: "The Papaya Mix-Up", cause: "Papaya had never been on my shelf, so mango was my best guess." }
+  },
+  labels: {
+    mid: 12, title: "Labels Matter", shelfName: "The Fruit Basket",
+    intro: "Today the fruit cards arrive with labels already on them. Put them on my shelf just as they are… but keep your eyes open, teacher!",
+    labels: ["apple", "banana", "orange"],
+    teach: [
+      C("🍎", "apple", "apple", { colour: "red", shape: "round", stem: "curved", size: "small" }),
+      C("🍎", "apple", "apple", { colour: "red", shape: "round", stem: "curved", size: "big" }),
+      C("🍌", "banana", "banana", { colour: "yellow", shape: "long", stem: "curved", size: "big" }),
+      C("🍌", "banana", "banana", { colour: "yellow", shape: "long", stem: "curved", size: "small" }),
+      C("🍊", "orange", "banana", { colour: "orange", shape: "round", stem: "leafy", size: "small" }, "orange")
+    ],
+    tests: [
+      C("🍎", "apple", "apple", { colour: "red", shape: "round", stem: "curved", size: "big" }),
+      C("🍌", "banana", "banana", { colour: "yellow", shape: "long", stem: "curved", size: "small" }),
+      C("🍊", "orange", "orange", { colour: "orange", shape: "round", stem: "leafy", size: "big" })
+    ],
+    trickIx: 2,
+    fixKind: "relabel", relabelFrom: "banana", relabelTo: "orange",
+    fix: [],
+    trickLine: "An orange! My shelf card for this fruit wore the label banana — so I believed the label and guessed banana. The card was an orange all along.",
+    fixLine: "You spotted it, teacher! One shelf card wears a silly label. Tap that card, then tap its true label to fix my brain.",
+    takeaway: "A label is a promise. Bit trusts the labels I check.",
+    museum: { title: "The Banana That Was an Orange", cause: "One card wore a silly label — and I believed the label." }
+  },
+  more: {
+    mid: 13, title: "More Examples, Better Brain", shelfName: "Leaf or Flower",
+    intro: "A quick skill today — only 3 examples to teach me: leaf, leaf, flower. Let us see how I do…",
+    labels: ["leaf", "flower"],
+    teach: [
+      C("🍃", "leaf", "leaf", { colour: "green", shape: "pointy", centre: "line" }),
+      C("🍃", "leaf", "leaf", { colour: "green", shape: "oval", centre: "line" }),
+      C("🌸", "flower", "flower", { colour: "pink", shape: "round", centre: "dot" })
+    ],
+    tests: [
+      C("🍃", "leaf", "leaf", { colour: "green", shape: "pointy", centre: "line" }),
+      C("🌸", "flower", "flower", { colour: "pink", shape: "round", centre: "dot" }),
+      C("🌼", "flower", "flower", { colour: "yellow", shape: "pointy", centre: "dot" })
+    ],
+    trickIx: 2,
+    fixKind: "add",
+    fix: [
+      C("🍃", "leaf", "leaf", { colour: "green", shape: "round", centre: "line" }),
+      C("🍃", "leaf", "leaf", { colour: "green", shape: "pointy", centre: "line" }),
+      C("🍃", "leaf", "leaf", { colour: "green", shape: "oval", centre: "line" }),
+      C("🌼", "flower", "flower", { colour: "yellow", shape: "round", centre: "dot" }),
+      C("🌼", "flower", "flower", { colour: "yellow", shape: "pointy", centre: "dot" }),
+      C("🌸", "flower", "flower", { colour: "pink", shape: "pointy", centre: "dot" })
+    ],
+    trickLine: "A yellow pointy flower! With only 3 examples, a leaf and a flower matched it the same — so I could not be sure. I need more examples!",
+    fixLine: "More examples, better brain! Add these 6 new cards to my shelf and watch me try again.",
+    takeaway: "More examples helped Bit guess better.",
+    museum: { title: "The Not-Sure Flower", cause: "Too few examples — a leaf and a flower matched the same." }
+  },
+  silly: {
+    mid: 14, title: "Silly Labels, Silly Brain", shelfName: "Silly Shapes",
+    intro: "Oh my! Somebody swapped my shape labels before you arrived. Teach me with these cards just as they are — and watch what happens!",
+    labels: ["circle", "square", "triangle"],
+    teach: [
+      C("🔴", "circle", "square", { colour: "red", corners: 0 }, "circle"),
+      C("🟡", "circle", "square", { colour: "yellow", corners: 0 }, "circle"),
+      C("🟦", "square", "circle", { colour: "blue", corners: 4 }, "square"),
+      C("🟩", "square", "circle", { colour: "green", corners: 4 }, "square"),
+      C("🔺", "triangle", "triangle", { colour: "pink", corners: 3 }, "triangle")
+    ],
+    tests: [
+      C("🔺", "triangle", "triangle", { colour: "orange", corners: 3 }),
+      C("🟣", "circle", "circle", { colour: "purple", corners: 0 })
+    ],
+    trickIx: 1,
+    fixKind: "swap",
+    fix: [],
+    trickLine: "That was a circle — and I called it a square! My labels were swapped, so my guesses came out swapped too. Silly labels, silly brain!",
+    fixLine: "One tap can fix this, teacher: swap my labels back, so every card wears its true label.",
+    takeaway: "Bit says what his labels teach him to say.",
+    museum: { title: "The Square That Was a Circle", cause: "My labels were swapped, so my guesses were swapped too." }
+  },
+  cats: {
+    mid: 15, title: "Cats, Dogs and a Fox", shelfName: "Cats and Dogs",
+    intro: "Our biggest skill yet: cats and dogs! Teach me with their ears, tails and snouts. Then I will meet some new animals…",
+    labels: ["cat", "dog", "fox"],
+    teach: [
+      C("🐱", "cat", "cat", { ears: "pointy", tail: "long", size: "small", snout: "small" }),
+      C("🐱", "cat", "cat", { ears: "pointy", tail: "long", size: "big", snout: "small" }),
+      C("🐱", "cat", "cat", { ears: "pointy", tail: "straight", size: "small", snout: "small" }),
+      C("🐶", "dog", "dog", { ears: "floppy", tail: "curly", size: "big", snout: "long" }),
+      C("🐶", "dog", "dog", { ears: "floppy", tail: "straight", size: "small", snout: "long" }),
+      C("🐶", "dog", "dog", { ears: "floppy", tail: "curly", size: "small", snout: "long" })
+    ],
+    tests: [
+      C("🐱", "cat", "cat", { ears: "pointy", tail: "long", size: "big", snout: "small" }),
+      C("🐶", "dog", "dog", { ears: "floppy", tail: "curly", size: "big", snout: "long" }),
+      C("🦊", "fox", "fox", { ears: "pointy", tail: "long", size: "big", snout: "pointy" })
+    ],
+    trickIx: 2,
+    fixKind: "add",
+    fix: [
+      C("🦊", "fox", "fox", { ears: "pointy", tail: "long", size: "big", snout: "pointy" }),
+      C("🦊", "fox", "fox", { ears: "pointy", tail: "straight", size: "small", snout: "pointy" })
+    ],
+    trickLine: "A fox! Pointy ears and a long tail, just like the cats — so I guessed cat. My shelf had no fox example at all.",
+    fixLine: "Fix my brain, teacher! Add the fox cards to my shelf, under the new label: fox.",
+    takeaway: "Bit learned from MY examples.",
+    museum: { title: "The Fox", cause: "Pointy ears and a long tail matched the cats — and I had no fox examples." }
+  }
+};
+const SKILL_ORDER = ["first", "feed", "labels", "more", "silly", "cats"];
+
+/* ================= STAGE / MISSION MAP ================= */
+const STAGES = [
+  { name: "Stage 1 — Meet Bit", sub: "AI hiding in her everyday life", missions: ["Bit Wakes Up", "AI Hiding in My Home", "The Voice Helper", "Photos That Know", "Videos That Guess", "Sorting Day", "Bit Learns a Word", "My Brain Shelf", "Robot or Person?", "Bit's First Test"] },
+  { name: "Stage 2 — Teach Bit", sub: "Examples and labels", missions: ["Feed the Brain", "Labels Matter", "More Examples, Better Brain", "Silly Labels, Silly Brain", "Cats, Dogs and a Fox", "Teach Colours", "Teach Shapes", "Teach Bit to Count Things", "Mixed-Up Examples", "Brain Shelf Check-Up"] },
+  { name: "Stage 3 — Bit's Mistakes", sub: "Checking and fairness", missions: ["The Fox Mistake", "Only Red Apples", "Too Few Examples", "Label Detective", "Tricky Twins", "Sure but Not Sure", "Check With My Own Eyes", "Fix It With Examples", "Trick Day Again", "Museum Tour With Mom"] },
+  { name: "Stage 4 — Ask Well", sub: "Together Stage — with Mom or Dad", missions: ["Asking Is a Skill", "Short Ask, Clear Ask", "Ask for a Story", "Ask for Learning Help", "Ask Twice and Compare", "Kind Asking", "Never Ask, Never Tell", "Spot the Silly Answer", "Ask and Make", "Family Ask Day"] },
+  { name: "Stage 5 — AI & Me", sub: "Creating, sightings, mastery", missions: ["My Sighting Journal", "Bit the Helper", "Teach Mom How Bit Learns", "Bit's New Skill", "Bit's Story Helper", "AI in the World of Work", "Future Bit", "My Own Rules for AI", "Show My Robot", "Young AI Teacher Day"] }
+];
+const PLAYABLE = { 11: "feed", 12: "labels", 13: "more", 14: "silly", 15: "cats" };
+/* Stage 1 exploratory missions (n: 1..10) */
+const S1 = {
+  1: { kind: "parts", intro: "Beep… boop… where am I? Oh! Hello! I am a baby robot. I know nothing yet — not one thing! Tap my parts to wake me up, teacher.",
+       parts: [["antenna", "📡", "My antenna! It listens for new examples."], ["eyes", "👀", "My eyes! They look at the cards you teach me."], ["chest light", "💡", "My chest light! It glows when I make a guess."]],
+       link: "At home: look at one machine today and guess — does it learn, or does it just work?" },
+  2: { kind: "hunt", intro: "AI hides all around your home, quietly guessing. Tap every card to find what each one guesses!",
+       items: [["📺", "Smart TV", "It guesses a show you will enjoy."], ["🎮", "Clever Game", "It guesses how hard to make the next level."], ["🗺️", "Car Map Voice", "It guesses the quickest road."], ["📷", "Camera Face Finder", "It guesses where the faces are."], ["🎨", "Drawing App", "It guesses the shape you are drawing."], ["⏰", "Reminding Clock", "It guesses when to ring and remind."]],
+       link: "At home: find one more guessing machine and tell Mom what it guesses." },
+  3: { kind: "talk", intro: "Some homes have a voice helper — a speaker that listens and answers.",
+       pages: ["A voice helper guesses the words you said. Sometimes it hears a sunny day… when you said Sunday!", "It does not feel happy or sad. It is a helper made by people — like me!", "Smart rule: ask it fun questions and learning questions. Personal things stay with family, always."],
+       link: "At home: ask a voice helper one silly question and one learning question. Which answers surprised you?" },
+  4: { kind: "reveal", intro: "Photos can know things! A photo app looks at pictures and guesses what it sees. Tap each photo.",
+       items: [["🐶", "A photo of a dog", "The app guesses: a happy dog! It learned from many dog examples."], ["🌻", "A photo of a sunflower", "The app guesses: a sunflower. It learned from many flower examples."], ["🍰", "A photo of a cake", "The app guesses: a birthday cake! Candles helped it guess."], ["🚗", "A photo of a car", "The app guesses: a red car, seen from the side."]],
+       link: "At home: show Mom a photo and ask — what would the photo app guess here?" },
+  5: { kind: "reveal", intro: "Video apps watch what you watch — and guess what to show next. Tap each video card!",
+       items: [["💃", "A dance video", "You watched two dance videos, so the app guesses: more dance!"], ["🐼", "A panda video", "You finished the whole panda video, so the app guesses: more animals!"], ["🎨", "A drawing video", "You watched drawing twice this week, so the app guesses: more art!"]],
+       link: "At home: next time a video app picks for you, ask — why did it guess this one?" },
+  6: { kind: "sort", intro: "Sorting is the teacher's first magic! Sort these cards: tap a card, then tap its basket — Round Things or Long Things.",
+       cards: [["🍎", "apple", "round"], ["🍌", "banana", "long"], ["🍊", "orange", "round"], ["🥒", "cucumber", "long"], ["🍇", "grapes", "round"], ["🥕", "carrot", "long"]],
+       bins: [["round", "🧺 Round Things"], ["long", "🧺 Long Things"]],
+       link: "At home: sort your crayons or spoons into two groups and name each group — those names are labels!" },
+  7: { kind: "word", intro: "Teach me a brand-new word today: MANGO. Tap the three mango examples, one by one, and say the word out loud each time!",
+       word: "MANGO", items: [["🥭", "a mango on a tree"], ["🥭", "a mango in a basket"], ["🥭", "a mango cut in half"]],
+       link: "At home: teach Bit's new word to Mom — show her three mangoes (or pictures) as your examples." },
+  8: { kind: "shelfTour", intro: "This is my Brain Shelf — the place where every example you teach me lives. Tap the glowing shelf boards to look around!",
+       link: "At home: tell Mom — what is on Bit's Brain Shelf so far?" },
+  9: { kind: "choice", intro: "Quick game, teacher! For each card, tap: is it a ROBOT (a machine that learns or guesses) or a PERSON?",
+       rounds: [["🔊", "a voice helper", "robot", "A machine that guesses your words — a robot helper!"], ["👩", "Mom", "person", "Mom is a person, with a heart and feelings."], ["🤖", "Bit", "robot", "That is me! A robot that learns from examples."], ["👨‍🏫", "a teacher at school", "person", "A person who teaches with love and care."], ["📱", "a phone that knows faces", "robot", "A machine that guesses faces — a robot helper!"]],
+       link: "At home: point at things and ask — robot helper, or person? People have feelings. Helpers do not." },
+  10: { kind: "quiz", intro: "My very first test, teacher! Three questions about everything you taught me. Tap your answers.",
+       qs: [["What does Bit need, to learn?", ["examples", "sweets", "naps"], "examples", "Yes! Examples are my food for learning."], ["What does Bit do with a new card?", ["He guesses, using his examples", "He magics the answer", "He asks the moon"], "He guesses, using his examples", "Yes! Every guess comes from my shelf."], ["When Bit makes a mistake, what fixes it?", ["Better examples and true labels", "Shouting loudly", "Hiding the card"], "Better examples and true labels", "Yes! You fix my brain by fixing my shelf."]],
+       link: "At home: tell Mom the three answers in your own words — you are ready to train Bit for real!" }
+};
+const TITLES = [[0, "Robot Friend"], [3, "Little Trainer"], [6, "Example Expert"], [9, "Mistake Detective"], [12, "Ask-Well Star"], [15, "Young AI Teacher"]];
+function titleFor(stars) { let t = TITLES[0][1]; for (const [n, name] of TITLES) { if (stars >= n) t = name; } return t; }
+const CONCEPTS = [
+  { name: "Training & Examples", inPlay: "b3", explain: 13 },
+  { name: "Testing", inPlay: 10, explain: 20 },
+  { name: "Mistakes Come From Data", inPlay: 12, explain: 21 },
+  { name: "Fair Examples", inPlay: 22, explain: 22 },
+  { name: "Confident Is Not Correct", inPlay: 15, explain: 26 },
+  { name: "Check Before Believing", inPlay: 27, explain: 27 },
+  { name: "Asking Well", inPlay: 31, explain: 40 },
+  { name: "AI Manners & Privacy", inPlay: 9, explain: 37 }
+];
+function conceptState(c) {
+  const reached = (k) => typeof k === "string" ? !!S.baseline : S.done.includes(k);
+  if (reached(c.explain)) return "exp";
+  if (reached(c.inPlay)) return "play";
+  return "not";
+}
+const SIGHT_WHATS = [["📱", "A phone guessed"], ["🔊", "A voice helper answered"], ["▶️", "A video app picked for me"], ["🌼", "A photo app named something"], ["🎵", "A music app picked a song"], ["⌨️", "A keyboard guessed my word"]];
+
+/* ================= STATE ================= */
+const LS_KEY = "techai_v1";
+function freshState() {
+  return { v: 1, baseline: null, bit: { name: "Bit", color: "sky" },
+    baseStep: "b1", baseWork: { color: "sky", name: "", hunt: {}, b3done: false },
+    done: [], stars: 0, shelves: {}, skillState: {}, museum: [], museumOpen: false,
+    sightings: [], reward: "A family evening of her choice", run: null };
+}
+let S = freshState();
+try { const raw = localStorage.getItem(LS_KEY); if (raw) { const p = JSON.parse(raw); if (p && p.v === 1) { const f = freshState(); Object.assign(f, p); S = f; } } } catch (e) {}
+function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) {} }
+function shelfOf(skillId) { if (!S.shelves[skillId]) S.shelves[skillId] = []; return S.shelves[skillId]; }
+
+/* ================= NAV / PIN ================= */
+let pinRole = "child", pinBuf = "";
+function show(id) { $$(".scr").forEach(x => x.classList.toggle("on", x.id === id)); window.scrollTo(0, 0); }
+function goHome() { renderHome(); show("scr-home"); }
+function openPin(role) { pinRole = role; pinBuf = ""; $("#pinMsg").textContent = ""; $("#pinTitle").textContent = role === "child" ? "Sreshta's PIN" : "Parents' PIN"; drawDots(); show("scr-pin"); }
+function drawDots() { $$("#pinDots span").forEach((s, i) => s.classList.toggle("f", i < pinBuf.length)); }
+function pinKey(k) {
+  if (k === "C") pinBuf = "";
+  else if (k === "⌫") pinBuf = pinBuf.slice(0, -1);
+  else if (pinBuf.length < 4) pinBuf += k;
+  drawDots();
+  if (pinBuf.length === 4) {
+    const want = pinRole === "child" ? "2017" : "2208";
+    if (pinBuf === want) {
+      pinBuf = "";
+      if (pinRole === "child") { if (S.baseline) goHome(); else startBaseline(); }
+      else { renderDash(); dashGo("ov"); show("scr-dash"); }
+    } else {
+      $("#pinMsg").textContent = "That PIN did not match. Try again, slowly.";
+      pinBuf = ""; drawDots();
+    }
+  }
+}
+const BIT_LINES = [
+  "I do not feel, but I can help. That is what robots are for!",
+  "Every guess I make comes from YOUR examples. You are a good teacher.",
+  "A mistake is not the end — it is a signpost: my shelf needs a fix!",
+  "Train me with true labels, and I will guess true things.",
+  "Ask me about my Brain Shelf — I love showing what you taught me."
+];
+let bitTapIx = 0;
+function tapBit() { const b = $("#homeBubble"); if (b) { b.textContent = BIT_LINES[bitTapIx % BIT_LINES.length]; bitTapIx++; } }
+
+/* ================= SHARED RENDER PIECES ================= */
+function cardHTML(card, opts) {
+  opts = opts || {};
+  const sz = card.f && card.f.size === "big" ? "big" : (card.f && card.f.size === "small" ? "small" : "");
+  return `<div class="pcard${opts.plain ? " plain" : ""}${opts.picked ? " picked" : ""}" ${opts.onclick ? `onclick="${opts.onclick}"` : ""}>
+    <div class="art ${sz}">${card.art}</div>
+    ${opts.showName === false ? "" : `<div class="nm">${esc(opts.nameText || card.name)}</div>`}
+    ${opts.showLabel ? `<div class="nm" style="color:var(--coral2)">label: ${esc(card.label)}</div>` : ""}
+  </div>`;
+}
+function shelfHTML(skillId, opts) {
+  opts = opts || {};
+  const sk = SKILLS[skillId];
+  const taught = shelfOf(skillId);
+  const byLabel = {};
+  sk.labels.forEach(l => { byLabel[l] = []; });
+  taught.forEach(c => { (byLabel[c.label] = byLabel[c.label] || []).push(c); });
+  let h = `<div class="shelf"><div style="font-family:'Baloo 2',cursive;font-weight:800;color:#8A6414">🧠 Brain Shelf — ${esc(sk.shelfName)}</div>`;
+  for (const l of sk.labels) {
+    const cards = byLabel[l] || [];
+    h += `<div class="shelfRow"><span class="shelfLbl">${esc(l)}</span><div class="pcards">`;
+    if (!cards.length) h += `<span style="font-weight:800;color:var(--soft);font-size:13px">nothing here yet</span>`;
+    cards.forEach(c => { h += cardHTML(c, { plain: !opts.onCard, onclick: opts.onCard ? opts.onCard + "('" + c.id + "')" : "", showLabel: opts.showGivenLabel }); });
+    h += `</div></div>`;
+  }
+  return h + `</div>`;
+}
+function addMuseum(entry, mid) {
+  if (S.museum.some(m => m.mid === mid)) return false;
+  S.museum.push({ mid: mid, title: entry.title, cause: entry.cause, date: todayISO(), exhibit: null });
+  return true;
+}
+function numberExhibits() {
+  if (!S.museum.length) return;
+  const fox = S.museum.find(m => m.mid === 15);
+  let n = 1;
+  if (fox) { fox.exhibit = n++; }
+  S.museum.filter(m => m.mid !== 15 && m.mid !== 0).sort((a, b) => a.mid - b.mid).forEach(m => { m.exhibit = n++; });
+}
+
+/* ================= BASELINE (Day 1) ================= */
+function startBaseline() { renderBase(); show("scr-base"); }
+function leaveBase() { if (S.baseline) goHome(); else show("scr-access"); }
+function baseSetColor(c) { S.baseWork.color = c; S.bit.color = c; save(); renderBase(); }
+function baseNameInput(v) { S.baseWork.name = String(v || "").replace(/[^A-Za-z ]/g, "").slice(0, 10); save(); }
+function baseB1Done() {
+  const nm = (S.baseWork.name || "").trim();
+  S.bit.name = nm ? nm : "Bit";
+  S.bit.color = S.baseWork.color || "sky";
+  S.baseStep = "b2"; save(); renderBase();
+}
+function baseHuntTap(i) { S.baseWork.hunt[i] = true; save(); renderBase(); }
+function baseB2Done() { if (Object.keys(S.baseWork.hunt).length < HUNT_ITEMS.length) return; S.baseStep = "b3"; save(); startTrainRun("first", true); }
+function baseFinish() {
+  S.baseline = { done: true, date: todayISO() };
+  S.baseStep = "done"; S.baseWork.b3done = true;
+  save(); goHome();
+}
+function renderBase() {
+  const el = $("#baseBody");
+  const step = S.baseStep;
+  if (step === "b1") {
+    el.innerHTML = bitRow("Beep… boop… Hello? Oh! A teacher! I am a baby robot, and I know nothing at all. Nothing! But you can train me — every example you teach me, I keep on my Brain Shelf.") +
+    `<div class="card goldy"><h3 style="margin:2px 0">B1 — Meet Your Robot</h3>
+      <p style="font-weight:800;margin:6px 0">First, pick my colour, teacher:</p>
+      <div class="chipRow">${Object.keys(BIT_COLORS).map(c => `<button class="swatch${S.baseWork.color === c ? " on" : ""}" style="background:${BIT_COLORS[c]}" onclick="baseSetColor('${c}')" aria-label="${BIT_COLOR_NAMES[c]}"></button>`).join("")}</div>
+      <p style="font-weight:800;margin:8px 0 4px">My name is <b>Bit</b> — a fine robot name! If you would like to give me your own name for me, a grown-up can type it here (letters only, up to 10):</p>
+      <input type="text" id="bitName" maxlength="10" placeholder="Bit" value="${esc(S.baseWork.name || "")}" oninput="baseNameInput(this.value)">
+      <p class="foot" style="text-align:left;margin:8px 0">Grown-ups: please stay beside her for this one typing moment — it is the only typing in the whole Workshop.</p>
+      <button class="btn" onclick="baseB1Done()">This is my robot! →</button></div>`;
+  } else if (step === "b2") {
+    const found = Object.keys(S.baseWork.hunt).length;
+    el.innerHTML = bitRow("Before you train me, let us look around your home. Smart machines hide everywhere, quietly guessing! Tap each card to see what it guesses. A grown-up can hunt with you.") +
+    `<div class="card"><h3 style="margin:2px 0">B2 — AI Around Me <span class="pill play">${found} of ${HUNT_ITEMS.length} found</span></h3>
+      <div class="huntGrid">${HUNT_ITEMS.map((it, i) => `<div class="huntItem${S.baseWork.hunt[i] ? " found" : ""}" onclick="baseHuntTap(${i})"><div class="art">${it.art}</div><div class="nm">${esc(it.nm)}</div><div class="rv">${esc(it.rv)}</div></div>`).join("")}</div>
+      <button class="btn" ${found < HUNT_ITEMS.length ? "disabled" : ""} onclick="baseB2Done()">We found them all! →</button></div>`;
+  } else if (step === "b3") {
+    el.innerHTML = `<div id="baseTrain"></div>`;
+    renderTrainRun($("#baseTrain"), true);
+  }
+}
+
+/* ================= HOME ================= */
+function missionUnlocked(n) {
+  if (!S.baseline) return false;
+  if (n === 1) return true;
+  return S.done.includes(n - 1);
+}
+function renderHome() {
+  $("#homeBit").innerHTML = bitSVG(S.bit.color);
+  $("#accessBit").innerHTML = bitSVG(S.bit.color);
+  $("#accessBubble").textContent = "Hello, Sreshta! I am " + S.bit.name + ", a baby robot. I know only what you teach me — every example you give me helps me guess better!";
+  $("#homeBubble").textContent = S.baseline ? ("Hello, teacher! I am " + S.bit.name + ". My title for you: " + titleFor(S.stars) + ". Shall we train?") : "Welcome! Let us start with Day 1 — tap Begin below.";
+  let h = "";
+  if (!S.baseline) {
+    h += `<div class="card goldy center"><h3 style="margin:2px 0">🌟 Day 1 — My Robot Start</h3><p style="font-weight:800">Meet ${esc(S.bit.name)}, explore AI around your home, and teach a first skill. About 10 happy minutes.</p><button class="btn" onclick="startBaseline()">Begin Day 1 →</button></div>`;
+  }
+  h += `<div class="card skyy"><div class="kv" style="border-color:rgba(255,255,255,.4)"><span style="color:#EAF6FF">Teacher title</span><span>${titleFor(S.stars)}</span></div><div class="kv" style="border-color:rgba(255,255,255,.4)"><span style="color:#EAF6FF">Teacher stars</span><span>⭐ ${S.stars}</span></div><div class="kv"><span style="color:#EAF6FF">Your robot</span><span>${esc(S.bit.name)} · ${BIT_COLOR_NAMES[S.bit.color] || "Sky Blue"}</span></div></div>`;
+  if (S.baseline && S.run && !S.run.baseline) {
+    const rsk = SKILLS[S.run.skillId];
+    h += `<div class="card goldy center"><h3 style="margin:2px 0">▶️ Continue: Mission ${rsk.mid} — ${esc(rsk.title)}</h3><p style="font-weight:800">You left in the middle — ${esc(S.bit.name)} kept your place. Nothing is lost!</p><button class="btn" onclick="startMission(${rsk.mid})">Continue →</button></div>`;
+  }
+  if (S.baseline) {
+    h += `<div class="card"><h3 style="margin:2px 0">🧠 Bit's Brain Shelf</h3><p style="font-weight:800;color:var(--soft);font-size:13.5px;margin:4px 0">Everything Sreshta has taught ${esc(S.bit.name)} so far:</p>`;
+    SKILL_ORDER.forEach(id => { const t = shelfOf(id); if (t.length) h += shelfHTML(id, {}); });
+    if (!SKILL_ORDER.some(id => shelfOf(id).length)) h += `<p style="font-weight:800">The shelf is empty — finish Day 1 to teach the first skill!</p>`;
+    h += `</div>`;
+    h += `<button class="entry" onclick="openJournal()"><span class="face">🔭</span><span>AI Sightings Journal<small>Spotted AI in the real world? Pin it here (${S.sightings.length} so far)</small></span></button>`;
+    if (S.museumOpen) h += `<button class="entry" onclick="openMuseum()"><span class="face">🖼️</span><span>Mistake Museum<small>Bit's framed mistakes — each one a lesson (${S.museum.length})</small></span></button>`;
+    else h += `<div class="card center"><b>🖼️ The Mistake Museum</b><p style="font-weight:800;color:var(--soft);margin:4px 0">A special room… it opens at Mission 15, with a very surprising animal.</p></div>`;
+  }
+  STAGES.forEach((st, si) => {
+    const sNum = si + 1;
+    h += `<div class="stageHead">${esc(st.name)}</div><p class="stageSub">${esc(st.sub)}${sNum === 4 ? " · Every mission here is done together with a parent beside her." : ""}</p>`;
+    st.missions.forEach((title, mi) => {
+      const n = si * 10 + mi + 1;
+      const playable = n <= 10 || !!PLAYABLE[n];
+      const done = S.done.includes(n);
+      const unlocked = playable && missionUnlocked(n);
+      let sub = "";
+      if (!S.baseline && n === 1) sub = "Finish Day 1 first";
+      else if (!playable) sub = sNum === 4 ? "Together Stage — opening in the full Lab" : "Opening in the full Lab";
+      else if (done) sub = "Star earned — tap to visit again";
+      else if (!unlocked) sub = "Finish the mission before this one";
+      else sub = PLAYABLE[n] ? "A full training mission — teach, test, trick, fix!" : "An exploring mission with Bit";
+      h += `<button class="mrow${unlocked ? "" : " lock"}${done ? " done" : ""}" ${unlocked ? `onclick="startMission(${n})"` : ""}><span class="num">${done ? "✓" : n}</span><span class="mt"><b>${esc(title)}</b><small>${sub}</small></span>${done ? '<span class="star">⭐</span>' : ""}</button>`;
+    });
+  });
+  $("#homeBody").innerHTML = h;
+}
+
+/* ================= TRAINING RUN (Teach -> Test -> Trick -> Fix) =================
+   Run state lives in S.run and is saved at every tap, so leaving mid-mission
+   and coming back resumes at the exact step (standing auto-save rule). */
+function startTrainRun(skillId, isBaseline) {
+  const sk = SKILLS[skillId];
+  if (!S.run || S.run.skillId !== skillId) {
+    S.run = { skillId: skillId, baseline: !!isBaseline, step: shelfOf(skillId).length >= sk.teach.length ? "test" : "teach", ti: 0, trickSeen: false, fixed: false };
+    save();
+  }
+  if (!isBaseline) { $("#missionCrumb").textContent = "Mission " + sk.mid + " — " + sk.title; show("scr-mission"); renderTrainRun($("#missionBody"), false); }
+  else renderBase();
+}
+function leaveMission() { save(); goHome(); }
+function runShelfCards() { return shelfOf(S.run.skillId); }
+function teachTap(cardId) {
+  const sk = SKILLS[S.run.skillId];
+  const card = sk.teach.find(c => c.id === cardId);
+  if (!card) return;
+  const shelf = runShelfCards();
+  if (shelf.some(c => c.id === cardId)) return;
+  shelf.push(card); save(); refreshTrain();
+}
+function teachDone() { S.run.step = "test"; S.run.ti = 0; save(); refreshTrain(); }
+function testNext() {
+  const sk = SKILLS[S.run.skillId];
+  const card = sk.tests[S.run.ti];
+  const g = classify(runShelfCards(), card);
+  const isTrick = card === sk.tests[sk.trickIx];
+  const correct = g.label === card.truth;
+  if (isTrick && !correct && !S.run.fixed) { S.run.step = "trick"; save(); refreshTrain(); return; }
+  S.run.ti++;
+  if (S.run.ti >= sk.tests.length) { finishTrain(); return; }
+  save(); refreshTrain();
+}
+function trickGoFix() { S.run.step = "fix"; save(); refreshTrain(); }
+function fixTap(cardId) {
+  const sk = SKILLS[S.run.skillId];
+  const card = sk.fix.find(c => c.id === cardId);
+  if (!card) return;
+  const shelf = runShelfCards();
+  if (shelf.some(c => c.id === cardId)) return;
+  shelf.push(card);
+  if (shelf.filter(c => sk.fix.includes(c)).length >= sk.fix.length) S.run.fixed = true;
+  save(); refreshTrain();
+}
+function fixRelabel(cardId) {
+  const sk = SKILLS[S.run.skillId];
+  const shelf = runShelfCards();
+  const card = shelf.find(c => c.id === cardId);
+  if (!card || card.label !== sk.relabelFrom) return;
+  S.run.pickedCard = cardId; save(); refreshTrain();
+}
+function fixRelabelTo(label) {
+  const sk = SKILLS[S.run.skillId];
+  const card = runShelfCards().find(c => c.id === S.run.pickedCard);
+  if (!card) return;
+  card.label = label;
+  if (label === sk.relabelTo) S.run.fixed = true;
+  S.run.pickedCard = null; save(); refreshTrain();
+}
+function fixSwap() {
+  const shelf = runShelfCards();
+  shelf.forEach(c => { c.label = c.truth; });
+  S.run.fixed = true; save(); refreshTrain();
+}
+function retestGo() {
+  const sk = SKILLS[S.run.skillId];
+  const trick = sk.tests[sk.trickIx];
+  const g = classify(runShelfCards(), trick);
+  if (g.label === trick.truth) { S.run.step = "retestPass"; }
+  else { S.run.step = "retestAgain"; }
+  save(); refreshTrain();
+}
+function finishTrain() {
+  const skillId = S.run.skillId;
+  const sk = SKILLS[skillId];
+  const isBase = S.run.baseline;
+  const mid = sk.mid;
+  S.skillState[skillId] = { passed: true };
+  if (!isBase) {
+    if (!S.done.includes(mid)) { S.done.push(mid); S.stars++; }
+    if (sk.museum) addMuseum(sk.museum, mid);
+    if (mid === 15 && !S.museumOpen) { S.museumOpen = true; numberExhibits(); }
+  } else {
+    if (sk.museum) addMuseum(sk.museum, 0);
+  }
+  S.run = null; save();
+  if (isBase) baseFinish(); else { renderHome(); show("scr-home"); }
+}
+function retestBack() { if (!S.run) return; S.run.step = "fix"; save(); refreshTrain(); }
+function refreshTrain() {
+  if (S.baseStep === "b3" && S.run && S.run.baseline) renderBase();
+  else renderTrainRun($("#missionBody"), false);
+}
+function trainStepHTML() {
+  const sk = SKILLS[S.run.skillId];
+  const shelf = runShelfCards();
+  const step = S.run.step;
+  let h = "";
+  if (step === "teach") {
+    const remaining = sk.teach.filter(c => !shelf.some(s => s.id === c.id));
+    h += `<span class="stepTag">STEP 1 · TEACH</span>` + bitRow(sk.intro, true);
+    h += shelfHTML(S.run.skillId, {});
+    h += `<div class="tray"><b>Cards to teach:</b><div class="pcards" style="margin-top:6px">${remaining.map(c => cardHTML(c, { onclick: "teachTap('" + c.id + "')", showLabel: true })).join("") || "<span style='font-weight:800;color:var(--soft)'>All cards are on the shelf!</span>"}</div></div>`;
+    h += `<button class="btn" ${remaining.length ? "disabled" : ""} onclick="teachDone()">My shelf is ready — Bit, try! →</button>`;
+  } else if (step === "test") {
+    const card = sk.tests[S.run.ti];
+    const g = classify(shelf, card);
+    h += `<span class="stepTag">STEP 2 · TEST</span>` + bitRow("A new card I have never seen! Let me look at my Brain Shelf and guess…", true);
+    h += `<div class="testStage"><div class="art">${card.art}</div><div class="guessBox">${esc(guessLine(g))}</div><p style="font-weight:800;color:var(--soft)">Card ${S.run.ti + 1} of ${sk.tests.length}</p><button class="btn sky" onclick="testNext()">${S.run.ti + 1 >= sk.tests.length ? "Finish the test →" : "Next card →"}</button></div>`;
+    h += shelfHTML(S.run.skillId, {});
+  } else if (step === "trick") {
+    const trick = sk.tests[sk.trickIx];
+    const g = classify(shelf, trick);
+    h += `<span class="stepTag">STEP 3 · A TRICKY CARD!</span>` + bitRow(sk.trickLine, true);
+    h += `<div class="testStage"><div class="art">${trick.art}</div><div class="guessBox">${esc(guessLine(g))}</div><p class="big" style="font-weight:800">It was a <b>${esc(trick.name)}</b>! 🎉 Surprise!</p><p style="font-weight:800;color:var(--soft)">Bit's guess came from the shelf YOU built. A mistake is a signpost — it shows us what the shelf needs.</p><button class="btn" onclick="trickGoFix()">Fix Bit's brain →</button></div>`;
+    h += shelfHTML(S.run.skillId, {});
+  } else if (step === "fix") {
+    h += `<span class="stepTag">STEP 4 · FIX THE BRAIN</span>` + bitRow(sk.fixLine, true);
+    h += shelfHTML(S.run.skillId, { onCard: sk.fixKind === "relabel" ? "fixRelabel" : null, showGivenLabel: sk.fixKind === "relabel" });
+    if (sk.fixKind === "add") {
+      const remaining = sk.fix.filter(c => !shelf.some(s => s.id === c.id));
+      h += `<div class="tray"><b>New cards for the shelf:</b><div class="pcards" style="margin-top:6px">${remaining.map(c => cardHTML(c, { onclick: "fixTap('" + c.id + "')", showLabel: true })).join("") || "<span style='font-weight:800;color:var(--soft)'>All new cards added!</span>"}</div></div>`;
+    } else if (sk.fixKind === "relabel") {
+      if (S.run.pickedCard) {
+        const pc = shelf.find(c => c.id === S.run.pickedCard);
+        h += `<div class="tray"><b>${esc(pc.name)}</b> — tap its TRUE label:</div><div class="chipRow">${sk.labels.map(l => `<button class="chip" onclick="fixRelabelTo('${l}')">${esc(l)}</button>`).join("")}</div>`;
+      } else h += `<div class="tray"><b>Tap the shelf card that wears a silly label.</b> Its art and its label do not match!</div>`;
+    } else if (sk.fixKind === "swap") {
+      h += `<div class="tray center"><button class="btn sky" onclick="fixSwap()">🔀 Swap the labels back!</button></div>`;
+    }
+    h += `<button class="btn" ${S.run.fixed ? "" : "disabled"} onclick="retestGo()">Bit, try the tricky card again! →</button>`;
+  } else if (step === "retestPass") {
+    const trick = sk.tests[sk.trickIx];
+    h += `<span class="stepTag">FIXED!</span>` + bitRow("I guessed it! That is a " + trick.name + "! Your fix worked, teacher. " + sk.takeaway, true);
+    h += `<div class="card goldy center"><div class="starPop">⭐</div><h3 style="margin:2px 0">${S.run.baseline ? "First skill taught!" : "Mission complete!"}</h3><p style="font-weight:800">${esc(sk.takeaway)}</p>${S.run.baseline ? "" : (SKILLS[S.run.skillId].mid === 15 ? "<p style='font-weight:800'>…and something special has opened in the Workshop. Visit the home page to see! 🖼️</p>" : "")}<button class="btn" onclick="finishTrain()">${S.run.baseline ? "Finish Day 1 🎉" : "Collect my star →"}</button></div>`;
+  } else if (step === "retestAgain") {
+    h += `<span class="stepTag">ALMOST!</span>` + bitRow("Hmm, my shelf still puzzles me. Let us look at the shelf together once more, teacher.", true);
+    h += shelfHTML(S.run.skillId, {});
+    h += `<button class="btn" onclick="retestBack()">Look at the fix once more →</button>`;
+  }
+  return h;
+}
+function renderTrainRun(el, isBaseline) {
+  if (!S.run) { el.innerHTML = ""; return; }
+  const sk = SKILLS[S.run.skillId];
+  el.innerHTML = (isBaseline ? `<div class="card goldy" style="padding:8px 14px"><b>B3 — Teach Bit One Thing</b> · Bit's very first skill</div>` : "") + trainStepHTML();
+}
+
+/* ================= STAGE 1 EXPLORATORY MISSIONS ================= */
+let M = null; /* {n, kind, tapped:{}, page, sel, placed:{}, round, q} */
+function startMission(n) {
+  if (n <= 10) {
+    const d = S1[n];
+    M = { n: n, kind: d.kind, tapped: {}, page: 0, sel: null, placed: {}, round: 0, q: 0, sorted: 0 };
+    $("#missionCrumb").textContent = "Mission " + n + " — " + STAGES[0].missions[n - 1];
+    show("scr-mission"); renderMission();
+  } else if (PLAYABLE[n]) { M = null; startTrainRun(PLAYABLE[n], false); }
+}
+function finishS1() {
+  if (!S.done.includes(M.n)) { S.done.push(M.n); S.stars++; }
+  save();
+  const d = S1[M.n];
+  $("#missionBody").innerHTML = bitRow("You did it, teacher! " + (M.n === 10 ? "I passed my first test — because YOU taught me well." : "That was a lovely mission."), true) +
+   `<div class="card goldy center"><div class="starPop">⭐</div><h3 style="margin:2px 0">Mission ${M.n} complete!</h3><p style="font-weight:800">🌍 Real-World Link: ${esc(d.link)}</p><button class="btn" onclick="M=null; goHome()">Back to the Workshop →</button></div>`;
+  M = null;
+}
+function mTap(i) { if (!M) return; M.tapped[i] = true; save(); renderMission(); }
+function mPage() { if (!M) return; M.page++; renderMission(); }
+function mSel(i) { if (!M) return; M.sel = i; renderMission(); }
+function mBin(bin) {
+  if (!M || M.sel == null) return;
+  const d = S1[M.n]; const card = d.cards[M.sel];
+  if (card[2] === bin) { M.placed[M.sel] = bin; M.sorted++; M.sel = null; }
+  renderMission();
+}
+function mChoice(pick) {
+  if (!M) return;
+  const d = S1[M.n]; const r = d.rounds[M.round];
+  if (pick === r[2]) { M.round++; }
+  renderMission();
+}
+function mQuiz(ix) {
+  if (!M) return;
+  const d = S1[M.n]; const q = d.qs[M.q];
+  if (q[1][ix] === q[2]) { M.q++; }
+  renderMission();
+}
+function renderMission() {
+  if (!M) return;
+  const d = S1[M.n];
+  const el = $("#missionBody");
+  let h = bitRow(d.intro, true);
+  if (d.kind === "parts") {
+    const all = d.parts.every((p, i) => M.tapped[i]);
+    h += `<div class="card center"><div style="max-width:150px;margin:0 auto">${bitSVG(S.bit.color)}</div><div class="chipRow" style="justify-content:center">${d.parts.map((p, i) => `<button class="chip${M.tapped[i] ? " on" : ""}" onclick="mTap(${i})">${p[1]} my ${p[0]}</button>`).join("")}</div>${d.parts.map((p, i) => M.tapped[i] ? `<p style="font-weight:800">${esc(p[2])}</p>` : "").join("")}</div>`;
+    h += `<button class="btn" ${all ? "" : "disabled"} onclick="finishS1()">Bit is awake! →</button>`;
+  } else if (d.kind === "hunt") {
+    const found = Object.keys(M.tapped).length;
+    h += `<div class="card"><div class="huntGrid">${d.items.map((it, i) => `<div class="huntItem${M.tapped[i] ? " found" : ""}" onclick="mTap(${i})"><div class="art">${it[0]}</div><div class="nm">${esc(it[1])}</div><div class="rv">${esc(it[2])}</div></div>`).join("")}</div><p class="center" style="font-weight:800">${found} of ${d.items.length} found</p></div>`;
+    h += `<button class="btn" ${found >= d.items.length ? "" : "disabled"} onclick="finishS1()">Found them all! →</button>`;
+  } else if (d.kind === "talk") {
+    h += `<div class="card"><p class="big" style="font-weight:800">${esc(d.pages[Math.min(M.page, d.pages.length - 1)])}</p></div>`;
+    h += M.page < d.pages.length - 1 ? `<button class="btn sky" onclick="mPage()">Tell me more →</button>` : `<button class="btn" onclick="finishS1()">I understand! →</button>`;
+  } else if (d.kind === "reveal") {
+    const found = Object.keys(M.tapped).length;
+    h += `<div class="card">${d.items.map((it, i) => `<div class="huntItem${M.tapped[i] ? " found" : ""}" style="margin:8px 0" onclick="mTap(${i})"><div class="art">${it[0]}</div><div class="nm">${esc(it[1])}</div><div class="rv">${esc(it[2])}</div></div>`).join("")}</div>`;
+    h += `<button class="btn" ${found >= d.items.length ? "" : "disabled"} onclick="finishS1()">Clever photos! →</button>`;
+  } else if (d.kind === "sort") {
+    h += `<div class="tray"><b>Cards:</b><div class="pcards" style="margin-top:6px">${d.cards.map((c, i) => M.placed[i] ? "" : `<div class="pcard${M.sel === i ? " picked" : ""}" onclick="mSel(${i})"><div class="art">${c[0]}</div><div class="nm">${esc(c[1])}</div></div>`).join("") || "<span style='font-weight:800;color:var(--soft)'>All sorted!</span>"}</div></div>`;
+    h += `<div class="chipRow">${d.bins.map(b => `<button class="chip" onclick="mBin('${b[0]}')">${esc(b[1])} (${d.cards.filter((c, i) => M.placed[i] === b[0]).length})</button>`).join("")}</div>`;
+    h += `<button class="btn" ${M.sorted >= d.cards.length ? "" : "disabled"} onclick="finishS1()">Beautifully sorted! →</button>`;
+  } else if (d.kind === "word") {
+    const tapped = Object.keys(M.tapped).length;
+    h += `<div class="card center"><div style="font-size:40px">🗣️</div>${d.items.map((it, i) => `<div class="huntItem${M.tapped[i] ? " found" : ""}" style="margin:8px 0" onclick="mTap(${i})"><div class="art">${it[0]}</div><div class="nm">${esc(it[1])}</div></div>`).join("")}${tapped >= d.items.length ? `<p class="big" style="font-weight:800">Bit says: "${esc(d.word)}!" — you taught Bit a word with examples!</p>` : `<p style="font-weight:800;color:var(--soft)">${tapped} of ${d.items.length} examples given</p>`}</div>`;
+    h += `<button class="btn" ${tapped >= d.items.length ? "" : "disabled"} onclick="finishS1()">Bit learned a word! →</button>`;
+  } else if (d.kind === "shelfTour") {
+    h += SKILL_ORDER.map(id => shelfOf(id).length ? shelfHTML(id, {}) : "").join("");
+    if (!SKILL_ORDER.some(id => shelfOf(id).length)) h += `<div class="shelf"><div style="font-family:'Baloo 2',cursive;font-weight:800;color:#8A6414">🧠 Brain Shelf</div><p style="font-weight:800">Pretty wooden boards, waiting for your examples. Shelf boards glow when a new skill moves in!</p></div>`;
+    h += `<div class="chipRow">${["top board", "middle board", "bottom board"].map((b, i) => `<button class="chip${M.tapped[i] ? " on" : ""}" onclick="mTap(${i})">✨ ${b}</button>`).join("")}</div>`;
+    h += `<button class="btn" ${Object.keys(M.tapped).length >= 3 ? "" : "disabled"} onclick="finishS1()">I know my shelf! →</button>`;
+  } else if (d.kind === "choice") {
+    if (M.round >= d.rounds.length) { finishS1(); return; }
+    const r = d.rounds[M.round];
+    h += `<div class="card center"><div style="font-size:64px">${r[0]}</div><p class="big" style="font-weight:800">${esc(r[1])}</p><div class="chipRow" style="justify-content:center"><button class="chip" onclick="mChoice('robot')">🤖 Robot</button><button class="chip" onclick="mChoice('person')">🧑 Person</button></div><p style="font-weight:800;color:var(--soft)">Card ${M.round + 1} of ${d.rounds.length} · If a tap puzzles Bit, look again and try the other one — no hurry!</p></div>`;
+  } else if (d.kind === "quiz") {
+    if (M.q >= d.qs.length) { finishS1(); return; }
+    const q = d.qs[M.q];
+    h += `<div class="card"><p class="big" style="font-weight:800">${esc(q[0])}</p>${q[1].map((o, oi) => `<button class="btn ghosty" style="text-align:left" onclick="mQuiz(${oi})">${esc(o)}</button>`).join("")}<p style="font-weight:800;color:var(--soft)">Question ${M.q + 1} of ${d.qs.length} · A puzzling tap just means: look again, teacher!</p></div>`;
+  }
+  el.innerHTML = h;
+}
+
+/* ================= MISTAKE MUSEUM ================= */
+function openMuseum() {
+  $("#missionCrumb").textContent = "The Mistake Museum";
+  let h = bitRow("Welcome to my Mistake Museum! Every frame here is a mistake I made — and every one taught us something. Mistakes are treasures here.", true);
+  if (!S.museum.length) h += `<div class="card center"><p style="font-weight:800">The frames are waiting for their first treasures.</p></div>`;
+  const ordered = S.museum.slice().sort((a, b) => (a.exhibit || 99) - (b.exhibit || 99));
+  ordered.forEach(m => {
+    h += `<div class="frame"><h3>${m.exhibit ? "Exhibit " + m.exhibit + " — " : "Day 1 Keepsake — "}${esc(m.title)}</h3><div class="cause">Why it happened: ${esc(m.cause)}</div><div style="font-weight:800;color:var(--soft);font-size:12.5px;margin-top:4px">Framed on ${esc(m.date)}</div></div>`;
+  });
+  if (S.museum.some(m => m.mid === 0)) h += `<p class="foot">The Day 1 keepsake (the Tomato Surprise) hangs here with honour — exhibit numbers begin with the Fox, the mistake that opened this museum.</p>`;
+  h += `<button class="btn ghosty" onclick="goHome()">Back to the Workshop →</button>`;
+  $("#missionBody").innerHTML = h;
+  show("scr-mission");
+}
+
+/* ================= AI SIGHTINGS JOURNAL ================= */
+let sightWork = { what: null, verdict: null };
+function openJournal() { sightWork = { what: null, verdict: null }; renderJournal(); show("scr-journal"); }
+function sightPickWhat(i) { sightWork.what = i; renderJournal(); }
+function sightPickVerdict(v) { sightWork.verdict = v; renderJournal(); }
+function sightAdd() {
+  if (sightWork.what == null || !sightWork.verdict) return;
+  const lineEl = $("#sightLine");
+  const line = lineEl ? lineEl.value.trim().slice(0, 60) : "";
+  S.sightings.push({ what: SIGHT_WHATS[sightWork.what][1], verdict: sightWork.verdict, line: line, date: todayISO() });
+  sightWork = { what: null, verdict: null };
+  save(); renderJournal();
+}
+function renderJournal() {
+  let h = bitRow("The real world is full of AI, teacher! When you spot some — with Mom or Dad — pin it here. What did it do? Was it clever, or a bit silly?", true);
+  h += `<div class="card"><h3 style="margin:2px 0">Pin a new sighting</h3>
+    <p style="font-weight:800;margin:6px 0 2px">1 · What did the AI do?</p>
+    <div class="chipRow">${SIGHT_WHATS.map((w, i) => `<button class="chip${sightWork.what === i ? " on" : ""}" onclick="sightPickWhat(${i})">${w[0]} ${esc(w[1])}</button>`).join("")}</div>
+    <p style="font-weight:800;margin:8px 0 2px">2 · How did it do?</p>
+    <div class="chipRow"><button class="chip${sightWork.verdict === "clever" ? " on" : ""}" onclick="sightPickVerdict('clever')">😀 It was clever</button><button class="chip${sightWork.verdict === "silly" ? " on" : ""}" onclick="sightPickVerdict('silly')">🤪 It was a bit silly</button></div>
+    <p style="font-weight:800;margin:8px 0 2px">3 · One line about it (a grown-up can type — up to 60 letters):</p>
+    <input type="text" id="sightLine" maxlength="60" placeholder="It guessed my song!">
+    <button class="btn" ${(sightWork.what == null || !sightWork.verdict) ? "disabled" : ""} onclick="sightAdd()">📌 Pin this sighting</button></div>`;
+  h += `<div class="card"><h3 style="margin:2px 0">Her sightings (${S.sightings.length})</h3>`;
+  if (!S.sightings.length) h += `<p style="font-weight:800;color:var(--soft)">No sightings yet — keep your eyes open out there!</p>`;
+  S.sightings.slice().reverse().forEach(sg => {
+    h += `<div class="kv"><span>${esc(sg.date)}</span><span>${esc(sg.what)} — ${sg.verdict === "clever" ? "clever 😀" : "a bit silly 🤪"}${sg.line ? " · “" + esc(sg.line) + "”" : ""}</span></div>`;
+  });
+  h += `</div>`;
+  $("#journalBody").innerHTML = h;
+}
+
+/* ================= PARENTS DASHBOARD ================= */
+function dashGo(name) { $$(".dashNav button").forEach(b => b.classList.toggle("on", b.dataset.d === name)); ["ov", "shelf", "museum", "concepts", "sight", "honest", "ctrl"].forEach(k => { const el = $("#dash-" + k); if (el) el.style.display = k === name ? "block" : "none"; }); }
+function museumListHTML() {
+  if (!S.museum.length) return `<p style="font-weight:800;color:var(--soft)">No framed mistakes yet. They appear as she teaches — the first usually arrives on Day 1 (a tomato).</p>`;
+  return S.museum.slice().sort((a, b) => (a.exhibit || 99) - (b.exhibit || 99)).map(m => `<div class="frame"><h3>${m.exhibit ? "Exhibit " + m.exhibit + " — " : "Day 1 Keepsake — "}${esc(m.title)}</h3><div class="cause">Cause: ${esc(m.cause)}</div><div style="font-weight:800;color:var(--soft);font-size:12.5px;margin-top:4px">Framed ${esc(m.date)} · from ${m.mid === 0 ? "Baseline B3" : "Mission " + m.mid}</div></div>`).join("");
+}
+function renderDash() {
+  /* Overview */
+  $("#dash-ov").innerHTML = `<div class="card skyy"><h3 style="margin:2px 0">Overview</h3>
+    <div class="kv" style="border-color:rgba(255,255,255,.4)"><span style="color:#EAF6FF">Her teacher title</span><span>${titleFor(S.stars)}</span></div>
+    <div class="kv" style="border-color:rgba(255,255,255,.4)"><span style="color:#EAF6FF">Stars earned</span><span>⭐ ${S.stars} of 15 in this sample (50 in the full Lab)</span></div>
+    <div class="kv" style="border-color:rgba(255,255,255,.4)"><span style="color:#EAF6FF">Missions done</span><span>${S.done.length} (${S.done.slice().sort((a, b) => a - b).join(", ") || "none yet"})</span></div>
+    <div class="kv" style="border-color:rgba(255,255,255,.4)"><span style="color:#EAF6FF">Day 1 baseline</span><span>${S.baseline ? "Complete · " + esc(S.baseline.date) : "Not yet done"}</span></div>
+    <div class="kv" style="border-color:rgba(255,255,255,.4)"><span style="color:#EAF6FF">Her robot</span><span>${esc(S.bit.name)} · ${BIT_COLOR_NAMES[S.bit.color] || "Sky Blue"}</span></div>
+    <div class="kv"><span style="color:#EAF6FF">Sightings pinned</span><span>${S.sightings.length}</span></div></div>
+    <div class="card"><h3 style="margin:2px 0">How this sample works</h3><p style="font-weight:800;line-height:1.55">Sreshta is the teacher; Bit is the student. In every training mission she teaches examples onto a visible Brain Shelf, Bit guesses new cards using only her examples, a tricky card exposes a gap, and she fixes the shelf. Stage 1 (Missions 1–10) explores AI in daily life; Missions 11–15 are the first full training arc. Missions 16–20 and Stages 3–5 are honest previews in this sample. Stage 4 will be a Together Stage — every mission done with a parent beside her.</p></div>`;
+  /* Brain Shelf view */
+  let sh = `<div class="card"><h3 style="margin:2px 0">Brain Shelf — what she has taught</h3>`;
+  SKILL_ORDER.forEach(id => {
+    const sk = SKILLS[id]; const t = shelfOf(id); const st = S.skillState[id];
+    sh += `<div class="kv"><span>${esc(sk.shelfName)} (${id === "first" ? "Baseline B3" : "Mission " + sk.mid})</span><span>${t.length} example${t.length === 1 ? "" : "s"} · ${st && st.passed ? "trick fixed — test passed" : (t.length ? "learning in progress" : "not started")}</span></div>`;
+  });
+  sh += `</div>`;
+  SKILL_ORDER.forEach(id => { if (shelfOf(id).length) sh += shelfHTML(id, {}); });
+  $("#dash-shelf").innerHTML = sh;
+  /* Museum view */
+  $("#dash-museum").innerHTML = `<div class="card"><h3 style="margin:2px 0">Mistake Museum ${S.museumOpen ? "— open 🎉" : "— opens at Mission 15"}</h3><p style="font-weight:800;color:var(--soft)">Every framed mistake, with its true cause. This is the most honest record of her learning.</p>${museumListHTML()}</div>`;
+  /* Concepts */
+  const pill = { not: '<span class="pill not">Not Yet</span>', play: '<span class="pill play">In Play</span>', exp: '<span class="pill exp">She Can Explain It</span>' };
+  $("#dash-concepts").innerHTML = `<div class="card"><h3 style="margin:2px 0">Concept Checklist — the real syllabus</h3>${CONCEPTS.map(c => `<div class="kv"><span>${esc(c.name)}</span><span>${pill[conceptState(c)]}</span></div>`).join("")}<p style="font-weight:800;color:var(--soft);font-size:13px">“She Can Explain It” is earned only when the proving mission is complete — several proving missions live in Stages 3–5 of the full Lab, so “In Play” is the honest ceiling for those in this sample.</p></div>`;
+  /* Sightings */
+  let sg = `<div class="card"><h3 style="margin:2px 0">AI Sightings Journal (${S.sightings.length})</h3>`;
+  if (!S.sightings.length) sg += `<p style="font-weight:800;color:var(--soft)">No sightings pinned yet. She adds them from the Workshop home page, with a parent beside her.</p>`;
+  S.sightings.slice().reverse().forEach(x => { sg += `<div class="kv"><span>${esc(x.date)}</span><span>${esc(x.what)} — ${x.verdict === "clever" ? "clever" : "a bit silly"}${x.line ? " · “" + esc(x.line) + "”" : ""}</span></div>`; });
+  sg += `</div>`;
+  $("#dash-sight").innerHTML = sg;
+  /* Honesty card */
+  $("#dash-honest").innerHTML = `<div class="card goldy"><h3 style="margin:2px 0">The Honesty Card — what Bit really is</h3>
+    <p style="font-weight:800;line-height:1.6">Bit is not a real AI, and this app runs no machine learning model. Bit is a careful, deterministic simulation built to teach truthfully:</p>
+    <p style="font-weight:800;line-height:1.6">• Every teachable card is defined by simple features (colour, shape, size, ears, and so on). When Bit meets a new card, the app scores how many features it shares with each example Sreshta taught, and Bit answers with the majority label of the best-matching examples. A tie makes him honestly “not sure”.</p>
+    <p style="font-weight:800;line-height:1.6">• Because of this, his mistakes are genuinely caused by her examples — too few, one-sided, or wearing a mistaken label — and adding the right examples genuinely fixes them. Nothing is scripted to pretend; the test suite proves each mission's tricky card is missed before the fix and passed after it, using the same matching rules the app itself runs.</p>
+    <p style="font-weight:800;line-height:1.6">• In the full Lab, Stage 4 (“Ask Well”) prompt results will be curated templates filled by her word-block choices — teaching the concept of prompting — and this card will say so there too.</p>
+    <p style="font-weight:800;line-height:1.6">The concepts she is learning — examples, training, guessing, mistakes, checking — are the real ones. Only the machinery is pretend, and we would rather you knew that plainly.</p></div>`;
+  /* Controls */
+  $("#dash-ctrl").innerHTML = `<div class="card"><h3 style="margin:2px 0">Controls</h3>
+    <p style="font-weight:800;margin:6px 0 2px">Next Reward (shown to parents as the current family reward):</p>
+    <input type="text" id="rewardIn" maxlength="60" value="${esc(S.reward)}">
+    <button class="btn small sky" onclick="saveReward()">Save reward</button>
+    <div style="height:10px"></div>
+    <p style="font-weight:800;margin:6px 0">Reset progress — two taps, on purpose. Reset clears: mission stars and completions, Brain Shelf examples, skill states and any half-done mission. Reset KEEPS, always: the Day 1 baseline, ${esc(S.bit.name)}'s name and colour, the Mistake Museum, and her Sightings journal — earned understanding is not progress to wipe.</p>
+    <button class="btn ghosty" id="resetBtn" onclick="resetTap()">Reset progress</button></div>`;
+}
+function saveReward() { const v = $("#rewardIn").value.trim(); if (v) { S.reward = v; save(); renderDash(); dashGo("ctrl"); } }
+let resetArmed = false;
+function resetTap() {
+  const b = $("#resetBtn");
+  if (!resetArmed) { resetArmed = true; if (b) b.textContent = "Tap once more to reset — Day 1, the Museum and the journal stay safe"; setTimeout(() => { resetArmed = false; const bb = $("#resetBtn"); if (bb) bb.textContent = "Reset progress"; }, 4000); return; }
+  resetArmed = false;
+  const keep = { baseline: S.baseline, bit: S.bit, museum: S.museum, museumOpen: S.museumOpen, sightings: S.sightings, reward: S.reward, baseStep: S.baseStep, baseWork: S.baseWork };
+  S = freshState();
+  S.baseline = keep.baseline; S.bit = keep.bit; S.museum = keep.museum; S.museumOpen = keep.museumOpen; S.sightings = keep.sightings; S.reward = keep.reward; S.baseStep = keep.baseline ? "done" : keep.baseStep; S.baseWork = keep.baseWork;
+  save(); renderDash(); dashGo("ctrl");
+}
+
+/* ================= INIT ================= */
+$("#accessBit").innerHTML = bitSVG(S.bit.color);
+$("#homeBit").innerHTML = bitSVG(S.bit.color);
+show("scr-access");
+/* Test hooks (used by the automated suite; harmless in the browser) */
+window.__AI = { classify: classify, guessLine: guessLine, SKILLS: SKILLS, S1: S1, STAGES: STAGES, CONCEPTS: CONCEPTS, HUNT_ITEMS: HUNT_ITEMS, TITLES: TITLES, get S() { return S; }, save: save, freshState: freshState };
+</script>
+</body>
+</html>
